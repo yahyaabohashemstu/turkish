@@ -1,0 +1,1567 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مغامرة زين في اللغة التركية</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6C63FF;
+            --primary-light: #8B83FF;
+            --secondary: #FF6B6B;
+            --accent: #4ECDC4;
+            --success: #2ECC71;
+            --warning: #F39C12;
+            --info: #3498DB;
+            --dark: #2D3436;
+            --light: #F8F9FA;
+            --card-bg: #FFFFFF;
+            --text: #2D3436;
+            --text-light: #636E72;
+            --shadow: 0 10px 40px rgba(108, 99, 255, 0.15);
+            --shadow-sm: 0 4px 15px rgba(0,0,0,0.08);
+            --radius: 20px;
+            --radius-sm: 12px;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: linear-gradient(135deg, #667eea11 0%, #764ba211 100%);
+            color: var(--text);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(180deg, #6C63FF 0%, #5A52D5 100%);
+            z-index: 1000;
+            padding: 30px 20px;
+            overflow-y: auto;
+            transform: translateX(100%);
+            transition: var(--transition);
+            box-shadow: -5px 0 30px rgba(0,0,0,0.2);
+        }
+        .sidebar.open { transform: translateX(0); }
+        .sidebar-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.5); z-index: 999; opacity: 0;
+            pointer-events: none; transition: var(--transition);
+        }
+        .sidebar-overlay.open { opacity: 1; pointer-events: all; }
+
+        .sidebar h3 {
+            color: white; font-size: 1.3rem; margin-bottom: 20px;
+            padding-bottom: 15px; border-bottom: 2px solid rgba(255,255,255,0.2);
+        }
+        .sidebar-nav a {
+            display: flex; align-items: center; gap: 10px;
+            color: rgba(255,255,255,0.85); text-decoration: none;
+            padding: 10px 15px; border-radius: var(--radius-sm);
+            font-size: 0.9rem; transition: var(--transition); margin-bottom: 4px;
+        }
+        .sidebar-nav a:hover, .sidebar-nav a.active {
+            background: rgba(255,255,255,0.15); color: white;
+        }
+        .sidebar-nav a .nav-icon { font-size: 1.2rem; min-width: 28px; text-align: center; }
+        .sidebar-nav .nav-section {
+            color: rgba(255,255,255,0.5); font-size: 0.75rem; font-weight: 700;
+            text-transform: uppercase; letter-spacing: 1px;
+            margin: 15px 0 8px 15px;
+        }
+        .sidebar-nav a .check-mark {
+            margin-right: auto; font-size: 0.9rem; opacity: 0; transition: var(--transition);
+        }
+        .sidebar-nav a.completed .check-mark { opacity: 1; }
+
+        /* ===== MENU BUTTON ===== */
+        .menu-btn {
+            position: fixed; top: 20px; right: 20px; z-index: 1001;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: var(--primary); border: none; cursor: pointer;
+            display: flex; align-items: center; justify-content: center;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+            transition: var(--transition); font-size: 1.5rem; color: white;
+        }
+        .menu-btn:hover { transform: scale(1.1); }
+
+        /* ===== PROGRESS BAR ===== */
+        .progress-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 5px;
+            background: rgba(108, 99, 255, 0.1); z-index: 998;
+        }
+        .progress-bar {
+            height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent));
+            width: 0%; transition: width 0.5s ease; border-radius: 0 0 0 5px;
+        }
+
+        /* ===== MAIN CONTENT ===== */
+        .main-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 30px 20px 100px;
+        }
+
+        /* ===== HERO ===== */
+        .hero {
+            text-align: center;
+            padding: 60px 30px;
+            background: linear-gradient(135deg, #6C63FF 0%, #5A52D5 50%, #4ECDC4 100%);
+            border-radius: var(--radius);
+            margin-bottom: 40px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+        }
+        .hero::before {
+            content: '';
+            position: absolute; top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: heroGlow 8s ease-in-out infinite;
+        }
+        @keyframes heroGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+        .hero-stars {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            pointer-events: none;
+        }
+        .hero-stars span {
+            position: absolute; font-size: 1.5rem;
+            animation: twinkle 3s ease-in-out infinite;
+        }
+        @keyframes twinkle {
+            0%, 100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+        .hero h1 {
+            color: white; font-size: 2.8rem; font-weight: 900;
+            margin-bottom: 15px; position: relative; z-index: 1;
+        }
+        .hero h1 .name-highlight {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 20px;
+            border-radius: 50px;
+            animation: nameFloat 3s ease-in-out infinite;
+        }
+        @keyframes nameFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+        .hero p {
+            color: rgba(255,255,255,0.9); font-size: 1.2rem;
+            max-width: 600px; margin: 0 auto 25px; position: relative; z-index: 1;
+        }
+        .hero-stats {
+            display: flex; justify-content: center; gap: 30px;
+            flex-wrap: wrap; position: relative; z-index: 1;
+        }
+        .hero-stat {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px; border-radius: 15px;
+            color: white; text-align: center;
+        }
+        .hero-stat .stat-num { font-size: 2rem; font-weight: 900; display: block; }
+        .hero-stat .stat-label { font-size: 0.85rem; opacity: 0.8; }
+
+        /* ===== SECTION HEADERS ===== */
+        .section-divider {
+            text-align: center; margin: 50px 0 30px; position: relative;
+        }
+        .section-divider::before {
+            content: ''; position: absolute; top: 50%; left: 0;
+            width: 100%; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--primary), transparent);
+        }
+        .section-divider h2 {
+            display: inline-block; background: linear-gradient(135deg, #667eea11 0%, #764ba211 100%);
+            padding: 10px 30px; border-radius: 50px; position: relative;
+            font-size: 1.8rem; color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .section-divider h2 .section-icon { margin-left: 10px; font-size: 1.5rem; }
+
+        /* ===== TOPIC CARDS ===== */
+        .topic-card {
+            background: var(--card-bg);
+            border-radius: var(--radius);
+            padding: 35px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(108, 99, 255, 0.08);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .topic-card::before {
+            content: ''; position: absolute; top: 0; right: 0;
+            width: 5px; height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--accent));
+            border-radius: 0 var(--radius) var(--radius) 0;
+        }
+        .topic-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(108, 99, 255, 0.12);
+        }
+
+        .topic-header {
+            display: flex; align-items: center; gap: 15px;
+            margin-bottom: 25px; cursor: pointer;
+        }
+        .topic-number {
+            width: 55px; height: 55px; border-radius: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white; display: flex; align-items: center; justify-content: center;
+            font-size: 1.5rem; font-weight: 900; flex-shrink: 0;
+            box-shadow: 0 4px 15px rgba(108, 99, 255, 0.3);
+        }
+        .topic-title-group { flex: 1; }
+        .topic-title {
+            font-size: 1.3rem; font-weight: 800; color: var(--dark);
+            margin-bottom: 3px;
+        }
+        .topic-subtitle {
+            font-size: 0.9rem; color: var(--text-light);
+            direction: ltr; text-align: right;
+        }
+        .topic-toggle {
+            font-size: 1.5rem; color: var(--primary);
+            transition: var(--transition); cursor: pointer;
+        }
+        .topic-card.collapsed .topic-toggle { transform: rotate(180deg); }
+        .topic-card.collapsed .topic-body { display: none; }
+
+        .topic-complete-btn {
+            display: flex; align-items: center; gap: 8px;
+            background: linear-gradient(135deg, var(--success), #27AE60);
+            color: white; border: none; padding: 10px 25px;
+            border-radius: 50px; cursor: pointer; font-family: inherit;
+            font-size: 0.95rem; font-weight: 700;
+            margin-top: 25px; transition: var(--transition);
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.3);
+        }
+        .topic-complete-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(46, 204, 113, 0.4); }
+        .topic-complete-btn.done {
+            background: linear-gradient(135deg, #95A5A6, #7F8C8D);
+            box-shadow: none;
+        }
+
+        /* ===== CONCEPT BOX ===== */
+        .concept-box {
+            background: linear-gradient(135deg, #E8F8F5, #D5F5E3);
+            border-radius: var(--radius-sm);
+            padding: 25px;
+            margin-bottom: 25px;
+            border-right: 4px solid var(--accent);
+        }
+        .concept-box h4 {
+            color: var(--accent); margin-bottom: 10px; font-size: 1.1rem;
+        }
+        .concept-box p { color: var(--dark); line-height: 2; }
+
+        /* ===== EXAMPLE BOXES ===== */
+        .example-box {
+            background: linear-gradient(135deg, #FFF9E6, #FFF3CC);
+            border-radius: var(--radius-sm);
+            padding: 20px 25px;
+            margin-bottom: 15px;
+            border-right: 4px solid var(--warning);
+        }
+        .example-box .example-label {
+            font-weight: 800; color: var(--warning);
+            margin-bottom: 8px; font-size: 0.95rem;
+        }
+        .example-box .turkish-text {
+            direction: ltr; text-align: left;
+            background: rgba(255,255,255,0.7);
+            padding: 12px 18px; border-radius: 10px;
+            margin: 8px 0; font-size: 1rem;
+            border: 1px solid rgba(243, 156, 18, 0.2);
+            color: #2C3E50; line-height: 1.9;
+        }
+        .example-box .arabic-translation {
+            color: var(--text-light); font-size: 0.9rem;
+            padding: 8px 0; border-top: 1px dashed rgba(0,0,0,0.1);
+            margin-top: 8px;
+        }
+        .example-box .guess-result {
+            background: rgba(46, 204, 113, 0.1);
+            padding: 10px 18px; border-radius: 10px;
+            margin-top: 8px; color: #27AE60; font-weight: 700;
+        }
+
+        /* ===== STEPS ===== */
+        .steps-container {
+            margin: 20px 0;
+        }
+        .step-item {
+            display: flex; gap: 15px; margin-bottom: 15px;
+            padding: 15px; background: var(--light);
+            border-radius: var(--radius-sm);
+        }
+        .step-num {
+            width: 35px; height: 35px; border-radius: 50%;
+            background: var(--primary); color: white;
+            display: flex; align-items: center; justify-content: center;
+            font-weight: 800; flex-shrink: 0; font-size: 0.9rem;
+        }
+        .step-content { flex: 1; }
+        .step-content strong { color: var(--primary); }
+
+        /* ===== KEY WORDS ===== */
+        .keywords-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px; margin: 20px 0;
+        }
+        .keyword-card {
+            background: linear-gradient(135deg, #EDE7F6, #D1C4E9);
+            padding: 15px; border-radius: var(--radius-sm);
+            text-align: center; cursor: pointer;
+            transition: var(--transition); position: relative;
+            min-height: 80px; display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+        }
+        .keyword-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-sm); }
+        .keyword-card .kw-turkish {
+            font-weight: 800; color: var(--primary); font-size: 1.1rem;
+            direction: ltr;
+        }
+        .keyword-card .kw-arabic {
+            font-size: 0.85rem; color: var(--text-light); margin-top: 5px;
+        }
+
+        /* ===== QUIZ SECTION ===== */
+        .quiz-section {
+            background: linear-gradient(135deg, #EBF5FB, #D6EAF8);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin-top: 25px;
+            border: 2px dashed var(--info);
+        }
+        .quiz-section h4 {
+            color: var(--info); margin-bottom: 20px;
+            font-size: 1.15rem;
+        }
+
+        .quiz-item {
+            background: white;
+            border-radius: var(--radius-sm);
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: var(--shadow-sm);
+        }
+        .quiz-question {
+            margin-bottom: 12px; font-weight: 700;
+            color: var(--dark); line-height: 2;
+        }
+        .quiz-question .q-turkish {
+            direction: ltr; text-align: left;
+            background: #F8F9FA; padding: 12px 18px;
+            border-radius: 10px; margin: 8px 0;
+            font-weight: 400; color: #2C3E50;
+            border: 1px solid #E9ECEF;
+        }
+        .quiz-question .q-arabic {
+            color: var(--text-light); font-size: 0.9rem;
+            font-weight: 400; margin-top: 5px;
+        }
+
+        .quiz-input-group {
+            display: flex; gap: 10px; margin-bottom: 10px;
+        }
+        .quiz-input {
+            flex: 1; padding: 12px 18px; border: 2px solid #E9ECEF;
+            border-radius: 10px; font-family: inherit; font-size: 0.95rem;
+            transition: var(--transition); direction: ltr; text-align: left;
+        }
+        .quiz-input:focus { outline: none; border-color: var(--primary); }
+
+        .quiz-btn {
+            padding: 12px 25px; border: none; border-radius: 10px;
+            cursor: pointer; font-family: inherit; font-weight: 700;
+            font-size: 0.9rem; transition: var(--transition);
+        }
+        .quiz-show-btn {
+            background: linear-gradient(135deg, var(--info), #2980B9);
+            color: white;
+        }
+        .quiz-show-btn:hover { transform: translateY(-2px); }
+
+        .quiz-answer {
+            display: none; padding: 15px; margin-top: 10px;
+            border-radius: 10px; animation: slideDown 0.3s ease;
+        }
+        .quiz-answer.show { display: block; }
+        .quiz-answer.correct {
+            background: linear-gradient(135deg, #D4EFDF, #A9DFBF);
+            border: 1px solid #27AE60;
+        }
+        .quiz-answer .answer-label {
+            font-weight: 800; margin-bottom: 5px;
+            display: flex; align-items: center; gap: 8px;
+        }
+        .quiz-answer .answer-label.ar-label { color: var(--success); }
+        .quiz-answer .answer-text {
+            direction: ltr; text-align: left; color: #2C3E50; line-height: 1.9;
+        }
+        .quiz-answer .answer-arabic {
+            margin-top: 8px; padding-top: 8px;
+            border-top: 1px dashed rgba(0,0,0,0.1);
+            color: var(--text-light); font-size: 0.9rem;
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ===== RULE BOXES ===== */
+        .rule-box {
+            background: white; border-radius: var(--radius-sm);
+            padding: 20px; margin-bottom: 15px;
+            border-right: 4px solid var(--secondary);
+            box-shadow: var(--shadow-sm);
+        }
+        .rule-box .rule-title {
+            font-weight: 800; color: var(--secondary);
+            margin-bottom: 8px; font-size: 1rem;
+        }
+
+        /* ===== TIP BOX ===== */
+        .tip-box {
+            background: linear-gradient(135deg, #FDEDEC, #FADBD8);
+            border-radius: var(--radius-sm);
+            padding: 20px 25px;
+            margin: 20px 0;
+            border-right: 4px solid var(--secondary);
+        }
+        .tip-box h4 { color: var(--secondary); margin-bottom: 8px; }
+
+        /* ===== NOTE BOX ===== */
+        .note-box {
+            background: linear-gradient(135deg, #F4ECF7, #E8DAEF);
+            border-radius: var(--radius-sm);
+            padding: 20px 25px;
+            margin: 15px 0;
+            border-right: 4px solid #9B59B6;
+        }
+        .note-box strong { color: #8E44AD; }
+
+        /* ===== WORD BOX (Kelime Sandigi) ===== */
+        .word-box {
+            display: flex; flex-wrap: wrap; gap: 10px;
+            margin: 15px 0;
+        }
+        .word-tag {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white; padding: 8px 18px; border-radius: 50px;
+            font-size: 0.9rem; font-weight: 600;
+            box-shadow: 0 3px 10px rgba(108, 99, 255, 0.2);
+        }
+        .word-tag .tag-meaning {
+            opacity: 0.8; font-size: 0.8rem; margin-right: 5px;
+        }
+
+        /* ===== CLASSIFICATION TABLE ===== */
+        .class-table {
+            display: grid; grid-template-columns: 1fr 1fr;
+            gap: 15px; margin: 15px 0;
+        }
+        .class-group {
+            background: white; border-radius: var(--radius-sm);
+            padding: 18px; box-shadow: var(--shadow-sm);
+            border-top: 3px solid var(--accent);
+        }
+        .class-group h5 {
+            color: var(--accent); margin-bottom: 10px; font-size: 1rem;
+        }
+        .class-group ul {
+            list-style: none; padding: 0;
+        }
+        .class-group ul li {
+            padding: 5px 0;
+            padding-right: 15px;
+            position: relative;
+        }
+        .class-group ul li::before {
+            content: ''; position: absolute; right: 0; top: 12px;
+            width: 6px; height: 6px; background: var(--accent);
+            border-radius: 50%;
+        }
+
+        /* ===== STORY BOX ===== */
+        .story-box {
+            background: linear-gradient(135deg, #FFF9E6, #FFF3CC);
+            border-radius: var(--radius);
+            padding: 25px;
+            margin: 15px 0;
+            border: 2px solid #F39C12;
+            position: relative;
+        }
+        .story-box .story-part {
+            margin-bottom: 10px;
+        }
+        .story-box .story-part .part-label {
+            display: inline-block;
+            background: var(--warning);
+            color: white; padding: 3px 12px;
+            border-radius: 50px; font-size: 0.8rem;
+            font-weight: 700; margin-bottom: 5px;
+        }
+        .story-box .story-turkish {
+            direction: ltr; text-align: left;
+            line-height: 2; color: #2C3E50;
+        }
+        .story-box .story-arabic {
+            color: var(--text-light); font-size: 0.9rem;
+            margin-top: 5px;
+        }
+
+        /* ===== GOLDEN RULE ===== */
+        .golden-rule {
+            background: linear-gradient(135deg, #F9E79F, #F7DC6F);
+            border-radius: var(--radius);
+            padding: 25px; margin-top: 25px;
+            border: 3px solid #F1C40F;
+            text-align: center; position: relative;
+        }
+        .golden-rule h4 { color: #7D6608; margin-bottom: 10px; font-size: 1.2rem; }
+        .golden-rule p { color: #7D6608; font-weight: 600; }
+
+        /* ===== CELEBRATION MODAL ===== */
+        .celebration-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6); z-index: 2000;
+            display: none; align-items: center; justify-content: center;
+        }
+        .celebration-overlay.show { display: flex; }
+        .celebration-box {
+            background: white; border-radius: var(--radius);
+            padding: 50px; text-align: center; max-width: 450px;
+            animation: popIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+        }
+        @keyframes popIn {
+            from { transform: scale(0.5); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+        .celebration-box .celeb-emoji { font-size: 4rem; margin-bottom: 15px; }
+        .celebration-box h3 { font-size: 1.6rem; color: var(--primary); margin-bottom: 10px; }
+        .celebration-box p { color: var(--text-light); margin-bottom: 20px; }
+        .celebration-box button {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white; border: none; padding: 12px 35px;
+            border-radius: 50px; font-family: inherit;
+            font-size: 1rem; font-weight: 700; cursor: pointer;
+            transition: var(--transition);
+        }
+        .celebration-box button:hover { transform: scale(1.05); }
+
+        /* ===== CONFETTI ===== */
+        .confetti {
+            position: fixed; top: -10px; z-index: 2001;
+            width: 10px; height: 10px; border-radius: 2px;
+            animation: confettiFall 3s ease-in forwards;
+        }
+        @keyframes confettiFall {
+            0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+
+        /* ===== FLOATING SCORE ===== */
+        .floating-score {
+            position: fixed; bottom: 25px; left: 25px; z-index: 998;
+            background: white; border-radius: 50px;
+            padding: 12px 25px; box-shadow: var(--shadow);
+            display: flex; align-items: center; gap: 10px;
+            font-weight: 800; border: 2px solid var(--primary);
+        }
+        .floating-score .score-icon { font-size: 1.3rem; }
+        .floating-score .score-text { color: var(--primary); font-size: 1rem; }
+
+        /* ===== BACK TO TOP ===== */
+        .back-to-top {
+            position: fixed; bottom: 25px; right: 25px; z-index: 998;
+            width: 50px; height: 50px; border-radius: 50%;
+            background: var(--primary); color: white; border: none;
+            cursor: pointer; font-size: 1.3rem;
+            box-shadow: 0 4px 20px rgba(108, 99, 255, 0.4);
+            transition: var(--transition); opacity: 0;
+            pointer-events: none; transform: translateY(20px);
+        }
+        .back-to-top.show { opacity: 1; pointer-events: all; transform: translateY(0); }
+        .back-to-top:hover { transform: translateY(-3px); }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 768px) {
+            .main-content { padding: 20px 15px 100px; }
+            .hero { padding: 40px 20px; }
+            .hero h1 { font-size: 2rem; }
+            .topic-card { padding: 25px 20px; }
+            .class-table { grid-template-columns: 1fr; }
+            .keywords-grid { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
+            .hero-stats { gap: 15px; }
+            .hero-stat { padding: 10px 18px; }
+            .sidebar { width: 260px; }
+            .floating-score { bottom: 15px; left: 15px; padding: 8px 18px; font-size: 0.85rem; }
+            .back-to-top { bottom: 15px; right: 15px; width: 42px; height: 42px; }
+        }
+
+        @media (max-width: 480px) {
+            .hero h1 { font-size: 1.6rem; }
+            .topic-title { font-size: 1.1rem; }
+            .quiz-input-group { flex-direction: column; }
+        }
+
+        /* ===== METHOD CARDS ===== */
+        .method-cards {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 15px; margin: 20px 0;
+        }
+        .method-card {
+            background: white; border-radius: var(--radius-sm);
+            padding: 20px; text-align: center;
+            box-shadow: var(--shadow-sm); transition: var(--transition);
+            border-top: 3px solid var(--primary);
+        }
+        .method-card:hover { transform: translateY(-3px); }
+        .method-card .method-icon { font-size: 2rem; margin-bottom: 8px; }
+        .method-card .method-name { font-weight: 800; color: var(--primary); font-size: 1rem; margin-bottom: 5px; }
+        .method-card .method-name-tr { direction: ltr; font-size: 0.85rem; color: var(--text-light); margin-bottom: 8px; }
+        .method-card .method-clue { font-size: 0.85rem; color: var(--text-light); }
+
+        /* ===== FORMULA BOX ===== */
+        .formula-box {
+            background: linear-gradient(135deg, #D5F5E3, #A9DFBF);
+            border-radius: var(--radius-sm);
+            padding: 20px; text-align: center;
+            margin: 20px 0; font-size: 1.3rem; font-weight: 800;
+            color: #1E8449; letter-spacing: 2px;
+        }
+
+        /* ===== SCROLLBAR ===== */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #f1f1f1; }
+        ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
+
+        /* ===== INTRO BOX ===== */
+        .intro-box {
+            background: white; border-radius: var(--radius);
+            padding: 30px; margin-bottom: 30px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid rgba(108, 99, 255, 0.08);
+        }
+        .intro-box h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.3rem; }
+        .intro-box p { color: var(--text-light); line-height: 2; }
+
+        /* Highlight keyword */
+        .highlight { background: linear-gradient(to bottom, transparent 60%, #F9E79F 60%); font-weight: 700; }
+
+        /* Sub heading in topic */
+        .sub-heading {
+            font-size: 1.1rem; font-weight: 800; color: var(--dark);
+            margin: 20px 0 10px; padding-right: 15px;
+            border-right: 3px solid var(--primary);
+        }
+    </style>
+</head>
+<body>
+
+<!-- Progress Bar -->
+<div class="progress-container">
+    <div class="progress-bar" id="progressBar"></div>
+</div>
+
+<!-- Menu Button -->
+<button class="menu-btn" id="menuBtn" onclick="toggleSidebar()">&#9776;</button>
+
+<!-- Sidebar -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="toggleSidebar()"></div>
+<div class="sidebar" id="sidebar">
+    <h3>&#128218; فهرس الدروس</h3>
+    <nav class="sidebar-nav" id="sidebarNav">
+        <div class="nav-section">&#128214; القراءة OKUMA</div>
+        <a href="#topic1" onclick="toggleSidebar()" data-topic="1">
+            <span class="nav-icon">1</span> تخمين المعاني <span class="check-mark">&#10003;</span>
+        </a>
+        <a href="#topic2" onclick="toggleSidebar()" data-topic="2">
+            <span class="nav-icon">2</span> قراءة الصور <span class="check-mark">&#10003;</span>
+        </a>
+        <a href="#topic3" onclick="toggleSidebar()" data-topic="3">
+            <span class="nav-icon">3</span> الاستنتاجات <span class="check-mark">&#10003;</span>
+        </a>
+        <a href="#topic4" onclick="toggleSidebar()" data-topic="4">
+            <span class="nav-icon">4</span> المقارنة <span class="check-mark">&#10003;</span>
+        </a>
+        <a href="#topic5" onclick="toggleSidebar()" data-topic="5">
+            <span class="nav-icon">5</span> التصنيف <span class="check-mark">&#10003;</span>
+        </a>
+        <a href="#topic6" onclick="toggleSidebar()" data-topic="6">
+            <span class="nav-icon">6</span> تطوير الفكرة <span class="check-mark">&#10003;</span>
+        </a>
+        <div class="nav-section">&#9997; الكتابة YAZMA</div>
+        <a href="#topic7" onclick="toggleSidebar()" data-topic="7">
+            <span class="nav-icon">7</span> الإملاء والترقيم <span class="check-mark">&#10003;</span>
+        </a>
+        <a href="#topic8" onclick="toggleSidebar()" data-topic="8">
+            <span class="nav-icon">8</span> الكتابة الإبداعية <span class="check-mark">&#10003;</span>
+        </a>
+    </nav>
+</div>
+
+<!-- Floating Score -->
+<div class="floating-score">
+    <span class="score-icon">&#11088;</span>
+    <span class="score-text"><span id="scoreNum">0</span> / 8</span>
+</div>
+
+<!-- Back to Top -->
+<button class="back-to-top" id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})">&#8593;</button>
+
+<!-- Celebration Modal -->
+<div class="celebration-overlay" id="celebOverlay">
+    <div class="celebration-box">
+        <div class="celeb-emoji">&#127942;</div>
+        <h3>&#127881; مبارك يا زين! &#127881;</h3>
+        <p>لقد أنهيت جميع الدروس بنجاح!<br>أنت مستعد تماماً للامتحان!</p>
+        <button onclick="closeCelebration()">شكراً! &#128170;</button>
+    </div>
+</div>
+
+<!-- ===== MAIN CONTENT ===== -->
+<div class="main-content">
+
+    <!-- HERO -->
+    <div class="hero">
+        <div class="hero-stars">
+            <span style="top:10%;left:10%;animation-delay:0s">&#11088;</span>
+            <span style="top:20%;left:80%;animation-delay:0.5s">&#127775;</span>
+            <span style="top:70%;left:15%;animation-delay:1s">&#10024;</span>
+            <span style="top:60%;left:85%;animation-delay:1.5s">&#11088;</span>
+            <span style="top:40%;left:50%;animation-delay:2s">&#127775;</span>
+        </div>
+        <h1>مرحباً يا <span class="name-highlight">زين</span>!</h1>
+        <p>هذه مغامرتك التعليمية في اللغة التركية! &#127891;<br>
+        هيا نتعلم معاً ونستعد للامتحان بطريقة ممتعة!</p>
+        <div class="hero-stats">
+            <div class="hero-stat">
+                <span class="stat-num">8</span>
+                <span class="stat-label">دروس شيقة</span>
+            </div>
+            <div class="hero-stat">
+                <span class="stat-num">&#128221;</span>
+                <span class="stat-label">تمارين تفاعلية</span>
+            </div>
+            <div class="hero-stat">
+                <span class="stat-num">&#127942;</span>
+                <span class="stat-label">شهادة بالنهاية</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- INTRO BOX -->
+    <div class="intro-box">
+        <h3>&#128214; ما هذا الدرس يا زين؟</h3>
+        <p>
+            هذا الملف هو <span class="highlight">"دليل تدريس منزلي شامل"</span> تم إعداده خصيصاً لمساعدتك في الصف السادس على اجتياز امتحان اللغة التركية بسهولة، مع الأخذ بعين الاعتبار أن لغتك التركية لا تزال في مرحلة التطور. تم إنتاج هذا الملف استناداً إلى جدول توزيع مواضيع الامتحان (Konu Soru Dagilim Tablosu) المعتمد من وزارة التربية. يعتمد هذا الدليل على تزويدك بـ <span class="highlight">"مفاتيح وحيل بصرية ومنطقية"</span> تمكنك من فهم الأسئلة واستخراج الإجابات بذكاء، مع تقديم أمثلة وتدريبات ثنائية اللغة لضمان الاستيعاب التام.
+        </p>
+    </div>
+
+    <!-- ===== SECTION: READING ===== -->
+    <div class="section-divider">
+        <h2><span class="section-icon">&#128214;</span> القسم الأول: القراءة (OKUMA)</h2>
+    </div>
+
+    <!-- ===== TOPIC 1 ===== -->
+    <div class="topic-card" id="topic1">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">1</div>
+            <div class="topic-title-group">
+                <div class="topic-title">تخمين معاني الكلمات من سياق النص</div>
+                <div class="topic-subtitle">Baglamdan Anlam Tahmini - T.O.6.5</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الفكرة المبسطة يا زين:</h4>
+                <p>عندما تقرأ جملة بالتركية وتجد كلمة "صعبة" أو "غير معروفة"، لا تتوقف! بل انظر إلى الكلمات التي قبلها والتي بعدها (هذا يسمى <span class="highlight">السياق/Baglam</span>). هذه الكلمات تعطيك <span class="highlight">"خيطاً" (Ipucu)</span> يوصلك للمعنى التقريبي.</p>
+            </div>
+
+            <div class="sub-heading">&#128270; كيف نكتشف المعنى؟ (Ipucu Bulma)</div>
+            <p>يا زين، تعلّم أن تنظر إلى الأفعال أو الصفات المرتبطة بالكلمة.</p>
+
+            <div class="example-box" style="margin-top: 15px;">
+                <div class="example-label">&#128313; مثال (1):</div>
+                <div class="turkish-text">"Disarida siddetli bir firtina var, agaclar devriliyor."</div>
+                <p><strong>الكلمة الصعبة:</strong> Siddetli.</p>
+                <p><strong>الخيط (Ipucu):</strong> كلمة "Firtina" (عاصفة) و "Agaclar devriliyor" (الأشجار تقتلع).</p>
+                <div class="guess-result">&#9989; التخمين: بما أن الأشجار تسقط، فالعاصفة ليست ضعيفة، بل هي "قوية" أو "عنيفة".</div>
+            </div>
+
+            <div class="sub-heading">&#128218; أمثلة للتدريب (Ornekler)</div>
+
+            <div class="example-box">
+                <div class="example-label">Ornek 1:</div>
+                <div class="turkish-text">"Kardesim cok obur bir cocuk, tabagindaki her seyi saniyeler icinde bitiriyor."</div>
+                <div class="arabic-translation">(أخي طفل obur جداً، ينهي كل ما في طبقه خلال ثوانٍ).</div>
+                <div class="guess-result">&#9989; Tahmin (التخمين): كلمة Obur تعني "أكول" أو "شره".</div>
+            </div>
+
+            <div class="example-box">
+                <div class="example-label">Ornek 2:</div>
+                <div class="turkish-text">"Ogretmenimiz cok mutevazi biridir, basarisiyla asla ovunmez."</div>
+                <div class="arabic-translation">(معلمنا شخص mutevazi، لا يتفاخر أبداً بنجاحه).</div>
+                <div class="guess-result">&#9989; Tahmin (التخمين): كلمة Mutevazi تعني "متواضع".</div>
+            </div>
+
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <strong>Soru:</strong> Asagidaki cumlede alti cizili kelimenin anlamini metne gore tahmin ediniz.
+                        <div class="q-turkish">"Bahcedeki cicekler susuzluktan <u>solmus</u>, yapraklari kurumustu."</div>
+                        <div class="q-arabic">سؤال: خمن معنى الكلمة التي تحتها خط في الجملة التالية بناءً على النص.<br>"الأزهار في الحديقة قد <u>solmus</u> بسبب العطش، وأوراقها قد جفت."</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Kurumus veya olmus.</div>
+                        <div class="answer-arabic">جواب: جفت أو ماتت.</div>
+                        <div class="note-box" style="margin-top:10px;">
+                            <strong>&#128221; ملاحظة يا زين:</strong> في هذا النوع من الأسئلة، المصحح لا يتوقع منك كتابة المعنى "الحرفي" الموجود في القاموس، بل يكفي أن تكتب كلمة قريبة تؤدي المعنى.
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="topic-complete-btn" onclick="completeTopic(1, this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== TOPIC 2 ===== -->
+    <div class="topic-card" id="topic2">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">2</div>
+            <div class="topic-title-group">
+                <div class="topic-title">قراءة الصور والرسومات</div>
+                <div class="topic-subtitle">Gorsel Okuma - T.O.6.7</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الفكرة المبسطة يا زين:</h4>
+                <p>في الامتحان، سيعطونك صورة ويطلبون منك فهم <span class="highlight">"الرسالة"</span> التي تريد الصورة إيصالها. هذا النوع يعتمد على <span class="highlight">"العين" أكثر من "اللغة"</span>.</p>
+            </div>
+
+            <div class="sub-heading">&#128273; كيف نحل هذا السؤال؟ (3 خطوات ذهبية)</div>
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-content"><strong>ماذا أرى؟ (Unsurlar):</strong> حدد الأشياء الموجودة (شجرة، طفل حزين، ماء يغلي، إلخ).</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-content"><strong>ماذا يحدث؟ (Olay):</strong> ماذا تفعل هذه الأشياء؟</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-content"><strong>ما هي الرسالة؟ (Mesaj):</strong> ماذا يريد الرسام أن يقول لنا؟</div>
+                </div>
+            </div>
+
+            <div class="sub-heading">&#128272; كلمات مفتاحية تحتاجها يا زين للإجابة:</div>
+            <div class="keywords-grid">
+                <div class="keyword-card"><div class="kw-turkish">Gorsel</div><div class="kw-arabic">صورة / مرئي</div></div>
+                <div class="keyword-card"><div class="kw-turkish">Mesaj</div><div class="kw-arabic">رسالة</div></div>
+                <div class="keyword-card"><div class="kw-turkish">Ana fikir</div><div class="kw-arabic">الفكرة الأساسية</div></div>
+                <div class="keyword-card"><div class="kw-turkish">Dikkat cekmek</div><div class="kw-arabic">لفت الانتباه</div></div>
+            </div>
+
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <strong>Ornek Calisma:</strong> تخيل يا زين وجود صورة لـ "ساعة رملية، لكن بدلاً من الرمل، يسيل منها ماء، وفي الأسفل نبات يموت".
+                        <div class="q-turkish">Soru: Bu gorselde verilmek istenen mesaj nedir?</div>
+                        <div class="q-arabic">سؤال: ما هي الرسالة المراد إيصالها من هذه الصورة؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Su hayattir, bosa harcamamaliyiz. Su biterse yasam da biter.</div>
+                        <div class="answer-arabic">جواب: الماء هو الحياة، لا يجب أن نهدره. إذا انتهى الماء تنتهي الحياة.</div>
+                    </div>
+                </div>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <strong>Soru:</strong> (تخيل صورة لطفل يمسك كتاباً، والكتاب يفتح له باباً نحو النجوم والفضاء)
+                        <div class="q-turkish">Gorsele gore kitap okumanin faydasi nedir?</div>
+                        <div class="q-arabic">بناءً على الصورة، ما هي فائدة قراءة الكتب؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Kitap okumak hayal gucumuzu gelistirir ve bize yeni dunyalar acar.</div>
+                        <div class="answer-arabic">جواب: قراءة الكتب تنمي خيالنا وتفتح لنا عوالم جديدة.</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="topic-complete-btn" onclick="completeTopic(2, this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== TOPIC 3 ===== -->
+    <div class="topic-card" id="topic3">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">3</div>
+            <div class="topic-title-group">
+                <div class="topic-title">الاستنتاجات العميقة</div>
+                <div class="topic-subtitle">Cikarim Yapma - T.O.6.9</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الفكرة المبسطة يا زين:</h4>
+                <p>هنا يُطلب منك أن تكون مثل <span class="highlight">"المحقق الصغير"</span>. الكاتب لا يخبرنا بالشيء مباشرة، بل يعطينا <span class="highlight">"أدلة" (Kanitlar)</span>. وظيفتك هي جمع هذه الأدلة لتفهم المعنى العميق.</p>
+            </div>
+
+            <div class="formula-box">
+                &#128270; القاعدة: أنا أرى + أنا أعرف = أنا أستنتج &#128161;
+            </div>
+
+            <div class="sub-heading">&#128065; الاستنتاج البصري (Gorsel Cikarim)</div>
+            <div class="example-box">
+                <div class="example-label">&#128313; مثال:</div>
+                <p>تخيل صورة: طفل يرتدي معطفاً ثقيلاً، وشالاً، وقفازات، وتخرج من فمه "هبّة" هواء بيضاء.</p>
+                <p><strong>ماذا نرى؟</strong> ملابس شتوية ثقيلة.</p>
+                <div class="guess-result">&#128161; ماذا نستنتج؟ الجو بارد جداً (الكاتب لم يقل ذلك، نحن استنتجناه).</div>
+            </div>
+
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Ali, sabah kalktuginda disariya bakti. Yerler islakti ve insanlar semsiyelerini acmis yuruyordu. Ali hemen botlarini giydi." Ali disariya baktiginda neyi fark etmistir?</div>
+                        <div class="q-arabic">سؤال: "عندما استيقظ علي في الصباح ونظر إلى الخارج، كانت الأرض مبللة والناس يمشون وهم يفتحون مظلاتهم. فقام علي فوراً بارتداء حذائه الشتوي." ماذا لاحظ علي عندما نظر إلى الخارج؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Ali, yagmur yagdigini veya yeni durdugunu fark etmistir.</div>
+                        <div class="answer-arabic">جواب: لاحظ علي أن المطر يهطل أو أنه توقف للتو.</div>
+                    </div>
+                </div>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: (Gorselde yarisi yesil, diger yarisi coplerle dolu ve kurumus bir agac var) Bu gorselden nasil bir cikarim yapabiliriz?</div>
+                        <div class="q-arabic">سؤال: (صورة شجرة نصفها مخضر ونصفها الآخر مليء بالنفايات وجاف) ما هو الاستنتاج الذي يمكننا استخلاصه من هذه الصورة؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Insanlar dogayi kirletirse, canli yasami yok olur. Dogayi korumak bizim gorevimizdir.</div>
+                        <div class="answer-arabic">جواب: إذا لوث البشر الطبيعة، ستنتهي حياة الكائنات الحية. حماية الطبيعة هي واجبنا.</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="topic-complete-btn" onclick="completeTopic(3, this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== TOPIC 4 ===== -->
+    <div class="topic-card" id="topic4">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">4</div>
+            <div class="topic-title-group">
+                <div class="topic-title">المقارنة داخل النص</div>
+                <div class="topic-subtitle">Metin Ici Karsilastirma - T.O.6.10</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الفكرة المبسطة يا زين:</h4>
+                <p>استخراج أوجه <span class="highlight">الشبه (Benzerlikler)</span> وأوجه <span class="highlight">الاختلاف (Farkliliklar)</span> بين شيئين في النص. إجابتك ستكون دائماً موجودة أمامك داخل النص.</p>
+            </div>
+
+            <div class="sub-heading">&#128272; الكلمات الدليليّة السحرية</div>
+            <div class="keywords-grid">
+                <div class="keyword-card" style="border-top: 3px solid var(--success);">
+                    <div class="kw-turkish">Gibi</div>
+                    <div class="kw-arabic">(مثل) &#8592; تدل على التشابه (Benzerlik)</div>
+                </div>
+                <div class="keyword-card" style="border-top: 3px solid var(--secondary);">
+                    <div class="kw-turkish">Daha / En</div>
+                    <div class="kw-arabic">(أكثر / الأفضل) &#8592; تدل على الاختلاف (Farklilik)</div>
+                </div>
+                <div class="keyword-card" style="border-top: 3px solid var(--secondary);">
+                    <div class="kw-turkish">Fakat / Ama / Ise</div>
+                    <div class="kw-arabic">(لكن / أما) &#8592; تدل على الاختلاف</div>
+                </div>
+                <div class="keyword-card" style="border-top: 3px solid var(--success);">
+                    <div class="kw-turkish">Her ikisi de</div>
+                    <div class="kw-arabic">(كلاهما) &#8592; تدل على التشابه المطلق</div>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Ahmet cok hareketli ve spor yapmayi seven bir cocuktur. Kardesi Mehmet ise onun tam tersine sessizdir ve kitap okumayi sever. Ancak her ikisi de hafta sonlari sinemaya gitmekten buyuk keyif alir." Metne gore Ahmet ve Mehmet'in farkli ozellikleri nelerdir?</div>
+                        <div class="q-arabic">سؤال: "أحمد طفل نشيط جداً ويحب ممارسة الرياضة. أما أخوه محمد فهو على العكس تماماً، هادئ ويحب قراءة الكتب. لكن كلاهما يستمتع كثيراً بالذهاب إلى السينما في عطلة نهاية الأسبوع." بناءً على النص، ما هي الصفات المختلفة بين أحمد ومحمد؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Ahmet hareketli ve sporu sever. Mehmet ise sessizdir ve kitap okumayi sever.</div>
+                        <div class="answer-arabic">جواب: أحمد نشيط ويحب الرياضة. أما محمد فهو هادئ ويحب قراءة الكتب.</div>
+                    </div>
+                </div>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: Metne gore Ahmet ve Mehmet'in benzer ozelligi nedir?</div>
+                        <div class="q-arabic">سؤال: بناءً على النص السابق، ما هي الصفة المشتركة (المتشابهة) بين أحمد ومحمد؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Her ikisi de hafta sonlari sinemaya gitmeyi sever.</div>
+                        <div class="answer-arabic">جواب: كلاهما يحب الذهاب إلى السينما في عطلة نهاية الأسبوع.</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="topic-complete-btn" onclick="completeTopic(4, this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== TOPIC 5 ===== -->
+    <div class="topic-card" id="topic5">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">5</div>
+            <div class="topic-title-group">
+                <div class="topic-title">تصنيف العناصر في النص</div>
+                <div class="topic-subtitle">Metndeki Unsurlari Siniflandirabilme - T.O.6.12</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الفكرة المبسطة يا زين:</h4>
+                <p>استخراج أشياء من النص ووضعها في <span class="highlight">"صناديق/مجموعات"</span> معنونة بناءً على الرابط المشترك بينها.</p>
+            </div>
+
+            <div class="sub-heading">&#128736; خطوات الحل</div>
+            <div class="steps-container">
+                <div class="step-item">
+                    <div class="step-num">1</div>
+                    <div class="step-content"><strong>التحديد (Belirleme):</strong> حدد العناصر المطلوب تصنيفها.</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">2</div>
+                    <div class="step-content"><strong>اكتشاف القاعدة (Olcut bulma):</strong> ما القاسم المشترك؟</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-num">3</div>
+                    <div class="step-content"><strong>التسمية والفرز (Adlandirma ve Tasnif):</strong> ضع كل عنصر في مجموعته.</div>
+                </div>
+            </div>
+
+            <div class="sub-heading">&#128218; مثال الشرح</div>
+            <div class="example-box">
+                <div class="turkish-text">"Annem pazardan elma, domates, muz, salatalik ve cilek aldi."</div>
+                <div class="class-table" style="margin-top:12px;">
+                    <div class="class-group">
+                        <h5>&#127823; مجموعة الفواكه (Meyveler)</h5>
+                        <ul><li>Elma (تفاح)</li><li>Muz (موز)</li><li>Cilek (فراولة)</li></ul>
+                    </div>
+                    <div class="class-group">
+                        <h5>&#129388; مجموعة الخضروات (Sebzeler)</h5>
+                        <ul><li>Domates (طماطم)</li><li>Salatalik (خيار)</li></ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Yaz tatilinde yuzmeyi ve dondurma yemeyi cok severim. Kisin ise kardan adam yapmak ve sicak cikolata icmek en sevdigim seylerdir." Bu metindeki etkinlikleri 'Yaz Etkinlikleri' ve 'Kis Etkinlikleri' olarak siniflandiriniz.</div>
+                        <div class="q-arabic">سؤال: "في العطلة الصيفية أحب السباحة وتناول الآيس كريم كثيراً. أما في الشتاء فإن صنع رجل الثلج وشرب الشوكولاتة الساخنة هي أشيائي المفضلة." صنف الأنشطة في هذا النص إلى 'أنشطة صيفية' و 'أنشطة شتوية'.</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="class-table">
+                            <div class="class-group">
+                                <h5>&#9728; Yaz Etkinlikleri (الأنشطة الصيفية)</h5>
+                                <ul><li>Yuzmek (السباحة)</li><li>Dondurma yemek (تناول الآيس كريم)</li></ul>
+                            </div>
+                            <div class="class-group">
+                                <h5>&#10052; Kis Etkinlikleri (الأنشطة الشتوية)</h5>
+                                <ul><li>Kardan adam yapmak (صنع رجل الثلج)</li><li>Sicak cikolata icmek (شرب الشوكولاتة الساخنة)</li></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Ciftligimizde sevimli kediler, havlayan kopekler, ucan guvercinler ve oten kanaryalar var." cumlesindeki hayvanlari ozelliklerine gore iki gruba ayirip isimlendiriniz.</div>
+                        <div class="q-arabic">سؤال: قم بتقسيم الحيوانات في جملة "يوجد في مزرعتنا قطط لطيفة، وكلاب تنبح، وحمام يطير، وطيور كناري تغرد" إلى مجموعتين بناءً على خصائصها، وقم بتسميتهما.</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="class-table">
+                            <div class="class-group">
+                                <h5>&#128062; Dort Ayaklilar (ذوات الأربع أقدام)</h5>
+                                <ul><li>Kediler (القطط)</li><li>Kopekler (الكلاب)</li></ul>
+                            </div>
+                            <div class="class-group">
+                                <h5>&#128038; Kanatlilar (ذوات الأجنحة)</h5>
+                                <ul><li>Guvercinler (الحمام)</li><li>Kanaryalar (الكناري)</li></ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="topic-complete-btn" onclick="completeTopic(5, this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== TOPIC 6 ===== -->
+    <div class="topic-card" id="topic6">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">6</div>
+            <div class="topic-title-group">
+                <div class="topic-title">طرق تطوير الفكرة في النصوص المعلوماتية</div>
+                <div class="topic-subtitle">Dusunceyi Gelistirme Yollari - T.O.6.19</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الفكرة المبسطة يا زين:</h4>
+                <p>اكتشاف <span class="highlight">"الطريقة"</span> التي استخدمها الكاتب ليقنعنا بفكرته أو يشرحها. يا زين، احفظ هذه المصطلحات الأربعة:</p>
+            </div>
+
+            <div class="method-cards">
+                <div class="method-card">
+                    <div class="method-icon">&#128220;</div>
+                    <div class="method-name">التعريف</div>
+                    <div class="method-name-tr">Tanimlama</div>
+                    <div class="method-clue">يجيب على سؤال "ما هذا؟"<br>ابحث عن: <strong>denir</strong> أو <strong>(dir, tir)</strong></div>
+                </div>
+                <div class="method-card">
+                    <div class="method-icon">&#128204;</div>
+                    <div class="method-name">ضرب الأمثلة</div>
+                    <div class="method-name-tr">Orneklendirme</div>
+                    <div class="method-clue">ابحث عن كلمات مثل:<br><strong>Ornegin</strong>، <strong>Mesela</strong></div>
+                </div>
+                <div class="method-card">
+                    <div class="method-icon">&#128202;</div>
+                    <div class="method-name">البيانات الرقمية</div>
+                    <div class="method-name-tr">Sayisal Veriler</div>
+                    <div class="method-clue">ابحث عن الأرقام والنسب:<br><strong>%50, 1998, 3 milyon</strong></div>
+                </div>
+                <div class="method-card">
+                    <div class="method-icon">&#128172;</div>
+                    <div class="method-name">الاستشهاد/الاقتباس</div>
+                    <div class="method-name-tr">Tanik Gosterme</div>
+                    <div class="method-clue">ابحث عن اسم شخص<br>وكلامه الحرفي بين <strong>"..."</strong></div>
+                </div>
+            </div>
+
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Ulkemizde ormanlarin sayisi her gecen gun azaliyor. Arastirmalara gore, son on yilda ormanlik alanlarimizin %15'ini kaybettik." Yazar bu metinde dusuncesini inandirici kilmak icin hangi yolu kullanmistir?</div>
+                        <div class="q-arabic">سؤال: "تتناقص أعداد الغابات في بلدنا يوماً بعد يوم. ووفقاً للأبحاث، فقد فقدنا 15% من مساحات غاباتنا في السنوات العشر الماضية." ما هي الطريقة التي استخدمها الكاتب في هذا النص لجعل فكرته مقنعة؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Sayisal verilerden yararlanma kullanmistir.</div>
+                        <div class="answer-arabic">جواب: استخدم البيانات الرقمية (Sayisal verilerden yararlanma).</div>
+                    </div>
+                </div>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Biyoloji, canlilarin dogmasini, gelismesini ve uremesini inceleyen bilim dalidir." Bu cumlede hangi dusunceyi gelistirme yolu kullanilmistir?</div>
+                        <div class="q-arabic">سؤال: "علم الأحياء هو فرع العلوم الذي يدرس ولادة الكائنات الحية وتطورها وتكاثرها." ما هي طريقة تطوير الفكرة المستخدمة في هذه الجملة؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Tanimlama yapilmistir. (Cunku 'Biyoloji nedir?' sorusunun cevabi vardir).</div>
+                        <div class="answer-arabic">جواب: تم استخدام التعريف (Tanimlama). (لأنه يوجد إجابة لسؤال 'ما هو علم الأحياء؟').</div>
+                    </div>
+                </div>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Saglikli yasamak icin spor yapmaliyiz. Ornegin; yuzebilir, bisiklete binebilir veya yuruyus yapabiliriz." Yazar bu metinde hangi dusunceyi gelistirme yoluna basvurmustur?</div>
+                        <div class="q-arabic">سؤال: "يجب علينا ممارسة الرياضة لنعيش بصحة جيدة. على سبيل المثال؛ يمكننا السباحة، ركوب الدراجة، أو المشي." ما هي طريقة تطوير الفكرة التي لجأ إليها الكاتب في هذا النص؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Orneklendirme kullanmistir.</div>
+                        <div class="answer-arabic">جواب: استخدم ضرب الأمثلة (Orneklendirme).</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="topic-complete-btn" onclick="completeTopic(6, this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== SECTION: WRITING ===== -->
+    <div class="section-divider">
+        <h2><span class="section-icon">&#9997;</span> القسم الثاني: الكتابة (YAZMA)</h2>
+    </div>
+
+    <!-- ===== TOPIC 7 ===== -->
+    <div class="topic-card" id="topic7">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">7</div>
+            <div class="topic-title-group">
+                <div class="topic-title">قواعد الإملاء وعلامات الترقيم</div>
+                <div class="topic-subtitle">Yazim Kurallari ve Noktalama - T.Y.6.21</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+
+            <div class="sub-heading">&#128221; أهم 3 قواعد إملائية (Yazim Kurallari)</div>
+
+            <div class="rule-box">
+                <div class="rule-title">1. الأحرف الكبيرة</div>
+                <p>أول حرف في الجملة، وأسماء الأشخاص والمدن يجب أن تكون كبيرة أينما كانت.</p>
+            </div>
+            <div class="rule-box">
+                <div class="rule-title">2. أداة الاستفهام (mi, mu)</div>
+                <p>تُكتب دائماً <strong>منفصلة</strong> عن الكلمة.</p>
+            </div>
+            <div class="rule-box">
+                <div class="rule-title">3. لاحقة (de / da)</div>
+                <p>إذا حذفناها و<strong>فسد المعنى</strong> فهي تعني "في" وتُكتب <strong>متصلة</strong>. إذا لم يفسد فهي تعني "أيضاً" وتُكتب <strong>منفصلة</strong>.</p>
+            </div>
+
+            <div class="sub-heading">&#128204; أهم علامات الترقيم (Noktalama)</div>
+            <div class="keywords-grid">
+                <div class="keyword-card"><div class="kw-turkish" style="font-size:2rem;">.</div><div class="kw-arabic">النقطة (Nokta)</div></div>
+                <div class="keyword-card"><div class="kw-turkish" style="font-size:2rem;">?</div><div class="kw-arabic">إشارة الاستفهام (Soru isareti)</div></div>
+                <div class="keyword-card"><div class="kw-turkish" style="font-size:2rem;">,</div><div class="kw-arabic">الفاصلة للتعداد (Virgul)</div></div>
+                <div class="keyword-card"><div class="kw-turkish" style="font-size:2rem;">'</div><div class="kw-arabic">الفاصلة العليا (Kesme isareti)</div></div>
+            </div>
+
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: Asagidaki cumlede yazim yanlisi olan kelimeyi bulup dogrusunu yaziniz. "Dun aksam ankara'dan misafirlerimiz geldi."</div>
+                        <div class="q-arabic">سؤال: استخرج الكلمة التي تحتوي على خطأ إملائي في الجملة التالية واكتبها بشكل صحيح. "جاءنا ضيوف من أنقرة مساء أمس."</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: ankara'dan -> Ankara'dan (Sehir isimleri buyuk harfle baslar).</div>
+                        <div class="answer-arabic">جواب: ankara'dan -> Ankara'dan (أسماء المدن تبدأ بحرف كبير).</div>
+                    </div>
+                </div>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: Asagidaki cumlede yay ayrac ( ) ile bos birakilan yerlere uygun noktalama isaretlerini koyunuz. Manavdan domates ( ) salatalik ve biber aldim ( )</div>
+                        <div class="q-arabic">سؤال: ضع علامات الترقيم المناسبة في الأماكن الفارغة بين الأقواس ( ) في الجملة التالية. اشتريت من بائع الخضار طماطم ( ) خياراً وفلفلاً ( )</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Manavdan domates ( , ) salatalik ve biber aldim ( . )</div>
+                        <div class="answer-arabic">جواب: اشتريت من بائع الخضار طماطم ( , ) خياراً وفلفلاً ( . )</div>
+                    </div>
+                </div>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Bu kitabi okudunmu?" cumlesindeki yazim yanlisini duzeltiniz.</div>
+                        <div class="q-arabic">سؤال: صحح الخطأ الإملائي في جملة "هل قرأت هذا الكتاب؟". (مكتوبة متصلة في التركية).</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Bu kitabi okudun mu? (Soru eki ayri yazilir).</div>
+                        <div class="answer-arabic">جواب: Bu kitabi okudun mu? (أداة الاستفهام تُكتب منفصلة).</div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="topic-complete-btn" onclick="completeTopic(7, this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== TOPIC 8 ===== -->
+    <div class="topic-card" id="topic8">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">8</div>
+            <div class="topic-title-group">
+                <div class="topic-title">الكتابة الإبداعية</div>
+                <div class="topic-subtitle">Yaratici Yazi Yazabilme - T.Y.6.7</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الفكرة المبسطة يا زين:</h4>
+                <p>كتابة قصة قصيرة تدمج الخيال بحل مشكلة. بالنسبة لك، السر يكمن في <span class="highlight">"الجمل القصيرة جداً"</span>.</p>
+            </div>
+
+            <div class="sub-heading">&#128171; الخطة السحرية (البناء المكون من 5 أسئلة)</div>
+            <p>يا زين، تعلّم أن تجيب في عقلك عن هذه الأسئلة:</p>
+            <div class="steps-container">
+                <div class="step-item"><div class="step-num">1</div><div class="step-content"><strong>من؟ (Kim?)</strong></div></div>
+                <div class="step-item"><div class="step-num">2</div><div class="step-content"><strong>أين؟ (Nerede?)</strong></div></div>
+                <div class="step-item"><div class="step-num">3</div><div class="step-content"><strong>متى؟ (Ne zaman?)</strong></div></div>
+                <div class="step-item"><div class="step-num">4</div><div class="step-content"><strong>ما هي المشكلة؟ (Olay ne?)</strong></div></div>
+                <div class="step-item"><div class="step-num">5</div><div class="step-content"><strong>ما هو الحل؟ (Cozum ne?)</strong></div></div>
+            </div>
+
+            <div class="sub-heading">&#128230; "صندوق الكلمات" المساعدة (Kelime Sandigi)</div>
+            <div class="word-box">
+                <span class="word-tag">Bir gun <span class="tag-meaning">(في يوم من الأيام)</span></span>
+                <span class="word-tag">Aniden / Birdenbire <span class="tag-meaning">(فجأة)</span></span>
+                <span class="word-tag">Daha sonra <span class="tag-meaning">(بعد ذلك)</span></span>
+                <span class="word-tag">En sonunda <span class="tag-meaning">(في النهاية)</span></span>
+            </div>
+
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Yardimlasmak" konulu kisa bir hikaye yaziniz. Hikayenizde giris, gelisme ve sonuc bolumleri olsun.</div>
+                        <div class="q-arabic">سؤال: اكتب قصة قصيرة عن "التعاون / المساعدة". اجعل لقصتك بداية، ذروة (تطور الأحداث)، ونهاية.</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية نموذج الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; نموذج الإجابة:</div>
+                        <div class="story-box">
+                            <div class="story-part">
+                                <span class="part-label">Giris (البداية)</span>
+                                <div class="story-turkish">Bir bahar sabahi Kilis'te zeytin agaclarinin arasinda yuruyordum.</div>
+                                <div class="story-arabic">في صباح يوم ربيعي، كنت أمشي بين أشجار الزيتون في كلس.</div>
+                            </div>
+                            <div class="story-part">
+                                <span class="part-label">Gelisme (تطور الأحداث)</span>
+                                <div class="story-turkish">Aniden yerde kucuk bir kedi yavrusu gordum. Cok acti ve agliyordu. Etrafta annesi yoktu. Kendi harcligimla bakkaldan sut aldim ve ona icirdim.</div>
+                                <div class="story-arabic">فجأة، رأيت قطة صغيرة على الأرض. كانت جائعة جداً وتبكي. لم تكن أمها بالجوار. اشتريت حليباً من البقالة بمصروفي الشخصي وأسقيتها.</div>
+                            </div>
+                            <div class="story-part">
+                                <span class="part-label">Sonuc ve Cozum (النهاية / الحل)</span>
+                                <div class="story-turkish">En sonunda onu eve goturdum. Adini "Zeytin" koydum. Artik o benim en iyi arkadasim. Hayvanlara yardim etmek cok guzel bir duygudur.</div>
+                                <div class="story-arabic">في النهاية، أخذتها إلى المنزل. أسميتها "زيتون". الآن هي أفضل أصدقائي. مساعدة الحيوانات شعور جميل جداً.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: Asagidaki cumleyi hayal gucunuzu kullanarak tamamlayiniz. "Sabah uyandigimda penceremden disari baktim ve gozlerime inanamadim, cunku..."</div>
+                        <div class="q-arabic">سؤال: أكمل الجملة التالية باستخدام خيالك: "عندما استيقظت في الصباح، نظرت من نافذتي ولم أصدق عيني، لأن..."</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية نموذج الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; نموذج الإجابة:</div>
+                        <div class="story-box">
+                            <div class="story-turkish">...cunku gokyuzunde ucan arabalar vardi. Insanlar ise gitmek icin arabalarina biniyor ve bulutlarin arasina yukseliyordu. Hemen disari ciktim. Ben de kendi kucuk ucan bisikletime bindim ve gunese dogru uctum. Cok heyecan verici bir gundu.</div>
+                            <div class="story-arabic">...لأن هناك سيارات تطير في السماء. كان الناس يركبون سياراتهم للذهاب إلى العمل ويرتفعون بين السحاب. خرجت فوراً. ركبت دراجتي الطائرة الصغيرة وطرت نحو الشمس. كان يوماً مثيراً جداً.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="golden-rule">
+                <h4>&#128142; القاعدة الماسية الأخيرة (نصيحة تكتيكية في الكتابة)</h4>
+                <p>يا زين، لا تترجم جملة عربية طويلة في عقلك. تعلّم أن تفكر بجمل قصيرة متقطعة لا تتجاوز 4 كلمات.<br>
+                (مثال: أحمد صديقي. ذهبنا للحديقة. لعبنا بالكرة).<br>
+                هذا يضمن عدم وقوعك في أخطاء القواعد!</p>
+            </div>
+
+            <button class="topic-complete-btn" onclick="completeTopic(8, this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+</div><!-- end main-content -->
+
+<script>
+    // ===== STATE =====
+    let completedTopics = JSON.parse(localStorage.getItem('zainTurkishProgress') || '[]');
+    let score = completedTopics.length;
+
+    // ===== INIT =====
+    function init() {
+        updateScore();
+        updateProgressBar();
+        updateSidebarState();
+        updateButtonStates();
+        window.addEventListener('scroll', handleScroll);
+    }
+
+    // ===== SIDEBAR =====
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+        document.getElementById('sidebarOverlay').classList.toggle('open');
+    }
+
+    // ===== TOGGLE TOPIC =====
+    function toggleTopic(header) {
+        const card = header.closest('.topic-card');
+        card.classList.toggle('collapsed');
+    }
+
+    // ===== SHOW ANSWER =====
+    function showAnswer(btn) {
+        const answer = btn.nextElementSibling;
+        if (answer.classList.contains('show')) {
+            answer.classList.remove('show');
+            btn.innerHTML = '&#128161; اضغط لرؤية الإجابة';
+        } else {
+            answer.classList.add('show');
+            btn.innerHTML = '&#128064; إخفاء الإجابة';
+        }
+    }
+
+    // ===== COMPLETE TOPIC =====
+    function completeTopic(topicNum, btn) {
+        if (completedTopics.includes(topicNum)) {
+            completedTopics = completedTopics.filter(t => t !== topicNum);
+            btn.classList.remove('done');
+            btn.innerHTML = '&#10003; أنهيت هذا الدرس!';
+        } else {
+            completedTopics.push(topicNum);
+            btn.classList.add('done');
+            btn.innerHTML = '&#9989; تم إنجاز هذا الدرس!';
+            createConfetti();
+        }
+        score = completedTopics.length;
+        localStorage.setItem('zainTurkishProgress', JSON.stringify(completedTopics));
+        updateScore();
+        updateProgressBar();
+        updateSidebarState();
+
+        if (completedTopics.length === 8) {
+            setTimeout(() => {
+                document.getElementById('celebOverlay').classList.add('show');
+                createConfetti();
+                createConfetti();
+            }, 500);
+        }
+    }
+
+    // ===== UPDATE UI =====
+    function updateScore() {
+        document.getElementById('scoreNum').textContent = score;
+    }
+
+    function updateProgressBar() {
+        const pct = (completedTopics.length / 8) * 100;
+        document.getElementById('progressBar').style.width = pct + '%';
+    }
+
+    function updateSidebarState() {
+        document.querySelectorAll('.sidebar-nav a[data-topic]').forEach(a => {
+            const num = parseInt(a.getAttribute('data-topic'));
+            if (completedTopics.includes(num)) {
+                a.classList.add('completed');
+            } else {
+                a.classList.remove('completed');
+            }
+        });
+    }
+
+    function updateButtonStates() {
+        completedTopics.forEach(num => {
+            const card = document.getElementById('topic' + num);
+            if (card) {
+                const btn = card.querySelector('.topic-complete-btn');
+                if (btn) {
+                    btn.classList.add('done');
+                    btn.innerHTML = '&#9989; تم إنجاز هذا الدرس!';
+                }
+            }
+        });
+    }
+
+    // ===== SCROLL HANDLER =====
+    function handleScroll() {
+        const backBtn = document.getElementById('backToTop');
+        if (window.scrollY > 500) {
+            backBtn.classList.add('show');
+        } else {
+            backBtn.classList.remove('show');
+        }
+    }
+
+    // ===== CONFETTI =====
+    function createConfetti() {
+        const colors = ['#6C63FF', '#FF6B6B', '#4ECDC4', '#F39C12', '#2ECC71', '#E74C3C', '#9B59B6'];
+        for (let i = 0; i < 50; i++) {
+            const el = document.createElement('div');
+            el.className = 'confetti';
+            el.style.left = Math.random() * 100 + 'vw';
+            el.style.background = colors[Math.floor(Math.random() * colors.length)];
+            el.style.animationDelay = Math.random() * 2 + 's';
+            el.style.animationDuration = (2 + Math.random() * 2) + 's';
+            el.style.width = (6 + Math.random() * 8) + 'px';
+            el.style.height = (6 + Math.random() * 8) + 'px';
+            el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+            document.body.appendChild(el);
+            setTimeout(() => el.remove(), 4000);
+        }
+    }
+
+    // ===== CELEBRATION =====
+    function closeCelebration() {
+        document.getElementById('celebOverlay').classList.remove('show');
+    }
+
+    // ===== RUN =====
+    init();
+</script>
+</body>
+</html>
