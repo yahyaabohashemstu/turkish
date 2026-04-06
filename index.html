@@ -597,6 +597,46 @@
             border-right: 3px solid var(--primary);
         }
 
+        /* ===== LEVEL SELECTION OVERLAY ===== */
+        .level-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: linear-gradient(135deg, #5A52D5 0%, #6C63FF 50%, #4ECDC4 100%);
+            z-index: 3000; display: flex; align-items: center; justify-content: center;
+            flex-direction: column; padding: 30px; text-align: center;
+        }
+        .level-overlay.hidden { display: none; }
+        .level-overlay > h2 { color: white; font-size: 2.2rem; font-weight: 900; margin-bottom: 12px; }
+        .level-overlay > p { color: rgba(255,255,255,0.9); font-size: 1.1rem; margin-bottom: 40px; }
+        .level-cards { display: flex; gap: 25px; flex-wrap: wrap; justify-content: center; }
+        .level-card {
+            background: white; border-radius: 20px; padding: 40px 35px; text-align: center;
+            cursor: pointer; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            min-width: 220px; max-width: 270px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+        }
+        .level-card:hover { transform: translateY(-8px) scale(1.03); box-shadow: 0 30px 80px rgba(0,0,0,0.3); }
+        .level-card .lc-icon { font-size: 3.5rem; margin-bottom: 15px; }
+        .level-card .lc-title { font-size: 1.5rem; font-weight: 900; margin-bottom: 10px; }
+        .level-card .lc-sub { color: var(--text-light); font-size: 0.9rem; line-height: 1.7; }
+        .level-card.normal-card { border-top: 5px solid var(--success); }
+        .level-card.normal-card .lc-title { color: var(--success); }
+        .level-card.advanced-card { border-top: 5px solid var(--secondary); }
+        .level-card.advanced-card .lc-title { color: var(--secondary); }
+        .level-switch-btn {
+            display: inline-flex; align-items: center; gap: 8px;
+            background: rgba(255,255,255,0.2); color: white;
+            border: 2px solid rgba(255,255,255,0.5);
+            padding: 10px 22px; border-radius: 50px; font-family: inherit;
+            font-size: 0.9rem; font-weight: 700; cursor: pointer;
+            transition: var(--transition); margin-top: 20px; position: relative; z-index: 1;
+        }
+        .level-switch-btn:hover { background: rgba(255,255,255,0.35); transform: scale(1.05); }
+        .adv-badge {
+            display: inline-block; background: var(--secondary); color: white;
+            padding: 3px 12px; border-radius: 50px; font-size: 0.75rem;
+            font-weight: 700; margin-bottom: 5px;
+        }
+
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #f1f1f1; }
         ::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 10px; }
@@ -621,6 +661,24 @@
     </style>
 </head>
 <body>
+
+<!-- Level Selection Overlay -->
+<div class="level-overlay" id="levelOverlay">
+    <h2>&#128218; مرحباً يا زين!</h2>
+    <p>اختر المستوى الذي تريد الدراسة به</p>
+    <div class="level-cards">
+        <div class="level-card normal-card" onclick="selectLevel('normal')">
+            <div class="lc-icon">&#128218;</div>
+            <div class="lc-title">المستوى العادي</div>
+            <div class="lc-sub">مفاهيم مبسطة مع أمثلة وتدريبات وتوضيحات ثنائية اللغة. مناسب للبداية وللاستعداد للامتحان.</div>
+        </div>
+        <div class="level-card advanced-card" onclick="selectLevel('advanced')">
+            <div class="lc-icon">&#128220;</div>
+            <div class="lc-title">المستوى المتقدم</div>
+            <div class="lc-sub">نصوص معقدة، مفاهيم مجردة، وتحليل أعمق. للطالب الذي يريد التميّز والتعمق.</div>
+        </div>
+    </div>
+</div>
 
 <!-- Progress Bar -->
 <div class="progress-container"><div class="progress-bar" id="progressBar"></div></div>
@@ -684,6 +742,7 @@
             <div class="hero-stat"><span class="stat-num">&#128221;</span><span class="stat-label">تمارين تفاعلية</span></div>
             <div class="hero-stat"><span class="stat-num">&#127942;</span><span class="stat-label">شهادة بالنهاية</span></div>
         </div>
+        <button class="level-switch-btn" id="levelSwitchBtn" onclick="showLevelSelector()">&#127919; المستوى: <span id="levelLabel">عادي</span> &nbsp;&#8644;&nbsp; تغيير</button>
     </div>
 
     <!-- INTRO BOX -->
@@ -692,6 +751,7 @@
         <p>هذا الملف هو <span class="highlight">"دليل تدريس منزلي شامل"</span> تم إعداده خصيصاً لمساعدتك في الصف السادس على اجتياز امتحان اللغة التركية بسهولة، مع الأخذ بعين الاعتبار أن لغتك التركية لا تزال في مرحلة التطور. تم إنتاج هذا الملف استناداً إلى جدول توزيع مواضيع الامتحان (Konu Soru Dağılım Tablosu) المعتمد من وزارة التربية. يعتمد هذا الدليل على تزويدك بـ <span class="highlight">"مفاتيح وحيل بصرية ومنطقية"</span> تمكنك من فهم الأسئلة واستخراج الإجابات بذكاء، مع تقديم أمثلة وتدريبات ثنائية اللغة لضمان الاستيعاب التام.</p>
     </div>
 
+    <div id="normal-content">
     <!-- ===== SECTION: READING ===== -->
     <div class="section-divider"><h2><span class="section-icon">&#128214;</span> القسم الأول: القراءة (OKUMA)</h2></div>
 
@@ -1258,15 +1318,371 @@
         </div>
     </div>
 
+    </div><!-- end normal-content -->
+
+    <!-- ===== ADVANCED CONTENT ===== -->
+    <div id="advanced-content" style="display:none">
+
+    <!-- Advanced: Section Reading -->
+    <div class="section-divider"><h2><span class="section-icon">&#128214;</span> القسم الأول: القراءة (OKUMA)</h2></div>
+
+    <!-- ===== ADVANCED TOPIC 1 ===== -->
+    <div class="topic-card" id="atopic1">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">1</div>
+            <div class="topic-title-group">
+                <div class="topic-title">تخمين معاني الكلمات من سياق النص</div>
+                <div class="topic-subtitle">Bağlamdan Anlam Tahmini - T.O.6.5</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الشرح المتقدم:</h4>
+                <p>في هذا المستوى، لن يُسأل الطالب عن كلمات مادية بسيطة، بل عن كلمات مجردة <span class="highlight">(Soyut)</span>، أو تعابير مجازية، أو مصطلحات <span class="highlight">(Deyimler)</span>. يجب على الطالب تحليل "الجو العام" للجملة واستخراج المعنى الضمني.</p>
+            </div>
+            <div class="sub-heading">T.O.6.5. Metinde geçen söz varlığı unsurlarının anlamını tahmin etme</div>
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Yazarın son kitabındaki dili o kadar <u>ağdalı</u> ki, okurken sık sık sözlüğe bakmak zorunda kaldım." cümlesindeki altı çizili kelimenin anlamını tahmin ediniz.</div>
+                        <div class="q-arabic">سؤال: خمن معنى الكلمة التي تحتها خط في الجملة: "لغة الكاتب في كتابه الأخير كانت <u>ağdalı</u> لدرجة أنني اضطررت للنظر إلى القاموس مراراً أثناء القراءة."</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Anlaşılması zor, karmaşık ve süslü dil.</div>
+                        <div class="answer-arabic">جواب: لغة معقدة، صعبة الفهم، ومزخرفة.</div>
+                    </div>
+                </div>
+            </div>
+            <button class="topic-complete-btn" onclick="completeTopic('a1', this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== ADVANCED TOPIC 2 ===== -->
+    <div class="topic-card" id="atopic2">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">2</div>
+            <div class="topic-title-group">
+                <div class="topic-title">قراءة الصور والرسومات</div>
+                <div class="topic-subtitle">Görsel Okuma - T.O.6.7</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الشرح المتقدم:</h4>
+                <p>هنا لن يُطلب من الطالب مجرد سرد ما يراه، بل يجب عليه تحليل <span class="highlight">"الرسالة الضمنية" (Örtük Mesaj)</span>، كأن يربط بين التكنولوجيا والعزلة الاجتماعية، أو بين الطبيعة وتصرفات الإنسان.</p>
+            </div>
+            <div class="sub-heading">T.O.6.7. Görselle iletilen anlamı belirleyebilme</div>
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: (Görsel: Aynı masada oturan dört kişilik bir aile, ancak herkesin başı eğik ve elindeki telefona bakıyor. Etrafları karanlık, sadece telefonların ışığı yüzlerini aydınlatıyor.) Bu görselin vermek istediği asıl mesaj nedir?</div>
+                        <div class="q-arabic">سؤال: (الصورة: عائلة من أربعة أشخاص يجلسون على نفس الطاولة، لكن رؤوسهم جميعاً منحنية وينظرون إلى هواتفهم. محيطهم مظلم، وضوء الهواتف فقط يضيء وجوههم). ما هي الرسالة الأساسية التي تريد هذه الصورة إيصالها؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Teknoloji bağımlılığı insanları aynı ortamda bile yalnızlaştırır ve iletişimi koparır.</div>
+                        <div class="answer-arabic">جواب: إدمان التكنولوجيا يعزل الناس حتى وهم في نفس المكان، ويقطع التواصل بينهم.</div>
+                    </div>
+                </div>
+            </div>
+            <button class="topic-complete-btn" onclick="completeTopic('a2', this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== ADVANCED TOPIC 3 ===== -->
+    <div class="topic-card" id="atopic3">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">3</div>
+            <div class="topic-title-group">
+                <div class="topic-title">الاستنتاجات العميقة</div>
+                <div class="topic-subtitle">Çıkarım Yapma - T.O.6.9</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الشرح المتقدم:</h4>
+                <p>النص سيحتوي على تلميحات نفسية أو اجتماعية. يجب على الطالب <span class="highlight">"قراءة ما بين السطور"</span> لمعرفة مشاعر الشخصية أو دافعها الحقيقي دون أن يُذكر ذلك صراحة.</p>
+            </div>
+            <div class="sub-heading">T.O.6.9. Metnin derin anlamını belirlemeye yönelik çıkarımlar yapabilme</div>
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Yaşlı adam, duvarda asılı duran siyah beyaz fotoğrafa uzun uzun baktı. Titreyen elleriyle cebinden çıkardığı mendili gözlerine götürürken, dudaklarında hafif bir tebessüm belirdi." Yaşlı adamın duygusal durumu hakkında ne çıkarım yapılabilir?</div>
+                        <div class="q-arabic">سؤال: "نظر الرجل العجوز طويلاً إلى الصورة ذات اللونين الأبيض والأسود المعلقة على الجدار. وبينما كان يمسح عينيه بمنديل أخرجه من جيبه بيديه المرتجفتين، ظهرت ابتسامة خفيفة على شفتيه." ما الاستنتاج الذي يمكن استخلاصه حول الحالة العاطفية للرجل العجوز؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Geçmişe özlem duymakta, hem hüzün hem de güzel anıların mutluluğunu yaşamaktadır.</div>
+                        <div class="answer-arabic">جواب: يشعر بالحنين إلى الماضي، ويعيش مزيجاً من الحزن وسعادة الذكريات الجميلة.</div>
+                    </div>
+                </div>
+            </div>
+            <button class="topic-complete-btn" onclick="completeTopic('a3', this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== ADVANCED TOPIC 4 ===== -->
+    <div class="topic-card" id="atopic4">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">4</div>
+            <div class="topic-title-group">
+                <div class="topic-title">المقارنة داخل النص</div>
+                <div class="topic-subtitle">Metin İçi Karşılaştırma - T.O.6.10</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الشرح المتقدم:</h4>
+                <p>المقارنة ستكون بين مفاهيم، أو آراء، أو أنماط حياة معقدة (مثلاً: مقارنة بين الحياة في القرية والمدينة من حيث العلاقات الاجتماعية، أو بين الكتاب المطبوع والكتاب الإلكتروني).</p>
+            </div>
+            <div class="sub-heading">T.O.6.10. Metin içi karşılaştırma yapabilme</div>
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Basılı kitapların o kendine has kağıt kokusu okura huzur verirken, e-kitaplar binlerce eseri cebinizde taşıma kolaylığı sunar. Ancak e-kitap okurken göz yorgunluğu daha çabuk başlar." Metne göre basılı kitap ve e-kitabın farkları nelerdir?</div>
+                        <div class="q-arabic">سؤال: "في حين أن رائحة الورق المميزة للكتب المطبوعة تمنح القارئ الطمأنينة، تقدم الكتب الإلكترونية سهولة حمل آلاف الأعمال في جيبك. ومع ذلك، يبدأ إرهاق العين بسرعة أكبر عند قراءة الكتب الإلكترونية." بناءً على النص، ما هي الاختلافات بين الكتاب المطبوع والكتاب الإلكتروني؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Basılı kitap huzur veren bir kokuya sahiptir. E-kitap ise taşıma kolaylığı sağlar ama gözü daha çabuk yorar.</div>
+                        <div class="answer-arabic">جواب: الكتاب المطبوع له رائحة تمنح الطمأنينة. أما الكتاب الإلكتروني فيسهل حمله ولكنه يرهق العين بشكل أسرع.</div>
+                    </div>
+                </div>
+            </div>
+            <button class="topic-complete-btn" onclick="completeTopic('a4', this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== ADVANCED TOPIC 5 ===== -->
+    <div class="topic-card" id="atopic5">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">5</div>
+            <div class="topic-title-group">
+                <div class="topic-title">تصنيف العناصر في النص</div>
+                <div class="topic-subtitle">Sınıflandırma - T.O.6.12</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الشرح المتقدم:</h4>
+                <p>الطالب سيصنف الجمل إلى فئات مجردة، مثل تصنيف الجمل إلى <span class="highlight">"آراء شخصية" (Öznel Yargı)</span> و<span class="highlight">"حقائق علمية" (Nesnel Yargı)</span>.</p>
+            </div>
+            <div class="sub-heading">T.O.6.12. Metindeki unsurları sınıflandırabilme</div>
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: 1. Türkiye'nin başkenti Ankara'dır. 2. En güzel mevsim ilkbahardır. 3. Şiir okumak ruhu dinlendirir. 4. Su 100 derecede kaynar. Numaralanmış cümleleri "Öznel" ve "Nesnel" olarak sınıflandırınız.</div>
+                        <div class="q-arabic">سؤال: 1. عاصمة تركيا هي أنقرة. 2. أجمل فصول السنة هو الربيع. 3. قراءة الشعر تريح الروح. 4. يغلي الماء عند 100 درجة. صنف الجمل المرقمة إلى "شخصية/رأي" (Öznel) و"موضوعية/حقيقة" (Nesnel).</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: — Öznel Cümleler: 2 ve 3. &nbsp;&nbsp;— Nesnel Cümleler: 1 ve 4.</div>
+                        <div class="answer-arabic">جواب: — جمل تعبر عن رأي شخصي (Öznel): 2 و 3. &nbsp;&nbsp;— جمل تعبر عن حقائق (Nesnel): 1 و 4.</div>
+                    </div>
+                </div>
+            </div>
+            <button class="topic-complete-btn" onclick="completeTopic('a5', this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== ADVANCED TOPIC 6 ===== -->
+    <div class="topic-card" id="atopic6">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">6</div>
+            <div class="topic-title-group">
+                <div class="topic-title">طرق تطوير الفكرة</div>
+                <div class="topic-subtitle">Düşünceyi Geliştirme Yolları - T.O.6.19</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الشرح المتقدم:</h4>
+                <p>النصوص ستكون أكاديمية أكثر، وقد تدمج بين طريقتين. يُطلب من الطالب تحديد الطريقة <span class="highlight">الأبرز</span> التي استخدمها الكاتب لدعم حجته.</p>
+            </div>
+            <div class="sub-heading">T.O.6.19. Düşünceyi geliştirme yollarını belirleme</div>
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Başarı, asla tesadüf değildir. Büyük hedeflere ulaşmak için disiplin şarttır. Nitekim ünlü bilim insanı Edison bu durumu, 'Dehanın yüzde biri ilham, yüzde doksan dokuzu terdir.' sözüyle çok güzel özetlemiştir." Yazar bu metinde düşüncesini kanıtlamak için hangi yola başvurmuştur?</div>
+                        <div class="q-arabic">سؤال: "النجاح ليس صدفة أبداً. الانضباط شرط ضروري للوصول إلى الأهداف الكبيرة. والواقع أن العالم الشهير إديسون لخص هذا الموقف بشكل جميل بقوله: 'العبقرية 1% إلهام و 99% عرق'." ما هي الطريقة التي لجأ إليها الكاتب في هذا النص لإثبات فكرته؟</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Tanık gösterme yoluna başvurmuştur.</div>
+                        <div class="answer-arabic">جواب: لجأ إلى الاستشهاد/الاقتباس (Tanık gösterme).</div>
+                    </div>
+                </div>
+            </div>
+            <button class="topic-complete-btn" onclick="completeTopic('a6', this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- Advanced: Section Writing -->
+    <div class="section-divider"><h2><span class="section-icon">&#9997;</span> القسم الثاني: الكتابة (YAZMA)</h2></div>
+
+    <!-- ===== ADVANCED TOPIC 7 ===== -->
+    <div class="topic-card" id="atopic7">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">7</div>
+            <div class="topic-title-group">
+                <div class="topic-title">قواعد الإملاء وعلامات الترقيم</div>
+                <div class="topic-subtitle">Yazım Kuralları ve Noktalama - T.Y.6.21</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الشرح المتقدم:</h4>
+                <p>سيُختبر الطالب في قواعد دقيقة مثل التمييز بين <span class="highlight">(ki) الموصولة</span> و<span class="highlight">(ki) أداة الربط</span>، كتابة التواريخ المحددة بحرف كبير، واستخدام النقطتين (:) والفاصلة المنقوطة (;).</p>
+            </div>
+            <div class="sub-heading">T.Y.6.21. Yazım kuralları ve noktalama işaretlerini uygulayabilme</div>
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: Aşağıdaki cümlede yazım yanlışlarını bularak cümleyi doğru şekilde yeniden yazınız. "Seninki yine geç kaldı, oysa ki ona erken gelmesini söylemiştim."</div>
+                        <div class="q-arabic">سؤال: استخرج الأخطاء الإملائية في الجملة التالية وأعد كتابتها بشكل صحيح. "صاحبك تأخر مرة أخرى، مع أنني (oysa ki) أخبرته أن يأتي مبكراً."</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; الإجابة:</div>
+                        <div class="answer-text">Cevap: Seninki yine geç kaldı, oysaki ona erken gelmesini söylemiştim. ("oysaki" bitişik yazılır).</div>
+                        <div class="answer-arabic">جواب: Seninki yine geç kaldı, oysaki ona erken gelmesini söylemiştim. (كلمة oysaki تُكتب متصلة كحالة استثنائية).</div>
+                    </div>
+                </div>
+            </div>
+            <button class="topic-complete-btn" onclick="completeTopic('a7', this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    <!-- ===== ADVANCED TOPIC 8 ===== -->
+    <div class="topic-card" id="atopic8">
+        <div class="topic-header" onclick="toggleTopic(this)">
+            <div class="topic-number">8</div>
+            <div class="topic-title-group">
+                <div class="topic-title">الكتابة الإبداعية</div>
+                <div class="topic-subtitle">Yaratıcı Yazı Yazabilme - T.Y.6.7</div>
+            </div>
+            <span class="topic-toggle">&#9660;</span>
+        </div>
+        <div class="topic-body">
+            <div class="concept-box">
+                <h4>&#128161; الشرح المتقدم:</h4>
+                <p>هنا التقييم صارم. يجب على الطالب كتابة نص غني بالوصف <span class="highlight">(Betimleme)</span>، مقسم إلى فقرات (مقدمة، صلب، خاتمة)، واستخدام روابط لغوية سلسة، وحبكة قوية تعالج الموضوع من زوايا مختلفة.</p>
+            </div>
+            <div class="sub-heading">T.Y.6.7. Yaratıcı yazı yazabilme</div>
+            <div class="sub-heading">&#128230; روابط الانتقال المطلوبة (Geçiş İfadeleri)</div>
+            <div class="word-box">
+                <span class="word-tag">Bununla birlikte <span class="tag-meaning">(ومع ذلك)</span></span>
+                <span class="word-tag">Sonuç olarak <span class="tag-meaning">(في الختام)</span></span>
+                <span class="word-tag">Nitekim <span class="tag-meaning">(والواقع أن)</span></span>
+                <span class="word-tag">Öte yandan <span class="tag-meaning">(من ناحية أخرى)</span></span>
+            </div>
+            <div class="quiz-section">
+                <h4>&#127919; اختبر نفسك يا زين!</h4>
+                <div class="quiz-item">
+                    <div class="quiz-question">
+                        <div class="q-turkish">Soru: "Zamanın Değeri" temalı, betimleyici unsurlar ve geçiş ifadeleri (bununla birlikte, sonuç olarak vb.) kullanarak özgün bir hikaye yazınız.</div>
+                        <div class="q-arabic">سؤال: اكتب قصة أصلية تتناول موضوع "قيمة الوقت"، مستخدماً عناصر الوصف وروابط الانتقال (ومع ذلك، في الختام، إلخ).</div>
+                    </div>
+                    <button class="quiz-btn quiz-show-btn" onclick="showAnswer(this)">&#128161; اضغط لرؤية نموذج الإجابة</button>
+                    <div class="quiz-answer correct">
+                        <div class="answer-label ar-label">&#9989; نموذج الإجابة:</div>
+                        <div class="story-box">
+                            <div class="story-part">
+                                <span class="part-label">Giriş (البداية)</span>
+                                <div class="story-turkish">Eski ve tozlu saat dükkanında zaman adeta durmuştu. İçerideki yüzlerce saatin tiktakları, yaşlı saatçinin kalp atışlarıyla yarışıyordu. Yaşlı adam, "Zaman, satın alınamayan tek hazinedir," derdi hep.</div>
+                                <div class="story-arabic">في متجر الساعات القديم والمغبر، بدا وكأن الزمن قد توقف. كانت دقات مئات الساعات في الداخل تتسابق مع نبضات قلب صانع الساعات العجوز. كان الرجل العجوز يقول دائماً: "الوقت هو الكنز الوحيد الذي لا يمكن شراؤه".</div>
+                            </div>
+                            <div class="story-part">
+                                <span class="part-label">Gelişme (تطور الأحداث)</span>
+                                <div class="story-turkish">Bir gün dükkana telaşlı bir genç girdi, saatini tamir ettirmek istiyordu çünkü toplantıya geç kalmıştı. Bununla birlikte, saatçi ona gülümseyerek, bozulanın saati değil, zaman yönetimi olduğunu anlattı.</div>
+                                <div class="story-arabic">ذات يوم، دخل شاب على عجلة من أمره إلى المتجر، أراد إصلاح ساعته لأنه تأخر عن اجتماع. ومع ذلك، ابتسم له صانع الساعات وشرح له أن ما تعطل ليس ساعته، بل إدارته للوقت.</div>
+                            </div>
+                            <div class="story-part">
+                                <span class="part-label">Sonuç (الخاتمة)</span>
+                                <div class="story-turkish">Sonuç olarak, genç adam o gün sadece saatini değil, zamanın asıl değerini de tamir etmiş olarak oradan ayrıldı.</div>
+                                <div class="story-arabic">في الختام، غادر الشاب في ذلك اليوم وهو لم يصلح ساعته فحسب، بل أصلح أيضاً فهمه للقيمة الحقيقية للوقت.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <button class="topic-complete-btn" onclick="completeTopic('a8', this)">&#10003; أنهيت هذا الدرس!</button>
+        </div>
+    </div>
+
+    </div><!-- end advanced-content -->
+
 </div><!-- end main-content -->
 
 <script>
-    let completedTopics = JSON.parse(localStorage.getItem('zainTurkishProgress') || '[]');
-    let score = completedTopics.length;
+    // ===== LEVEL MANAGEMENT =====
+    let currentLevel = localStorage.getItem('zainLevel') || null;
 
+    function selectLevel(level) {
+        currentLevel = level;
+        localStorage.setItem('zainLevel', level);
+        document.getElementById('levelOverlay').classList.add('hidden');
+        applyLevel(level);
+        init();
+    }
+
+    function showLevelSelector() {
+        document.getElementById('levelOverlay').classList.remove('hidden');
+    }
+
+    function applyLevel(level) {
+        const isAdv = level === 'advanced';
+        document.getElementById('normal-content').style.display = isAdv ? 'none' : 'block';
+        document.getElementById('advanced-content').style.display = isAdv ? 'block' : 'none';
+        document.getElementById('levelLabel').textContent = isAdv ? 'متقدم' : 'عادي';
+        updateSidebarLinks(isAdv);
+    }
+
+    function updateSidebarLinks(isAdv) {
+        const links = document.querySelectorAll('.sidebar-nav a[data-topic]');
+        links.forEach(a => {
+            const num = a.getAttribute('data-topic');
+            a.href = isAdv ? '#atopic' + num : '#topic' + num;
+        });
+    }
+
+    // ===== PROGRESS =====
+    function getStorageKey() {
+        return currentLevel === 'advanced' ? 'zainTurkishProgressAdv' : 'zainTurkishProgress';
+    }
+    function loadProgress() {
+        return JSON.parse(localStorage.getItem(getStorageKey()) || '[]');
+    }
+    function saveProgress(arr) {
+        localStorage.setItem(getStorageKey(), JSON.stringify(arr));
+    }
+
+    // ===== CORE FUNCTIONS =====
     function init() {
-        updateScore();
-        updateProgressBar();
+        const completed = loadProgress();
+        document.getElementById('scoreNum').textContent = completed.length;
+        document.getElementById('progressBar').style.width = (completed.length / 8) * 100 + '%';
         updateSidebarState();
         updateButtonStates();
         window.addEventListener('scroll', handleScroll);
@@ -1292,45 +1708,57 @@
         }
     }
 
-    function completeTopic(topicNum, btn) {
-        if (completedTopics.includes(topicNum)) {
-            completedTopics = completedTopics.filter(t => t !== topicNum);
+    function completeTopic(topicId, btn) {
+        let completed = loadProgress();
+        const key = String(topicId);
+        if (completed.includes(key)) {
+            completed = completed.filter(t => t !== key);
             btn.classList.remove('done');
             btn.innerHTML = '&#10003; أنهيت هذا الدرس!';
         } else {
-            completedTopics.push(topicNum);
+            completed.push(key);
             btn.classList.add('done');
             btn.innerHTML = '&#9989; تم إنجاز هذا الدرس!';
             createConfetti();
         }
-        score = completedTopics.length;
-        localStorage.setItem('zainTurkishProgress', JSON.stringify(completedTopics));
-        updateScore();
-        updateProgressBar();
+        saveProgress(completed);
+        document.getElementById('scoreNum').textContent = completed.length;
+        document.getElementById('progressBar').style.width = (completed.length / 8) * 100 + '%';
         updateSidebarState();
-        if (completedTopics.length === 8) {
+        if (completed.length === 8) {
             setTimeout(() => { document.getElementById('celebOverlay').classList.add('show'); createConfetti(); createConfetti(); }, 500);
         }
     }
 
-    function updateScore() { document.getElementById('scoreNum').textContent = score; }
-    function updateProgressBar() { document.getElementById('progressBar').style.width = (completedTopics.length / 8) * 100 + '%'; }
     function updateSidebarState() {
+        const completed = loadProgress();
+        const isAdv = currentLevel === 'advanced';
         document.querySelectorAll('.sidebar-nav a[data-topic]').forEach(a => {
-            const num = parseInt(a.getAttribute('data-topic'));
-            completedTopics.includes(num) ? a.classList.add('completed') : a.classList.remove('completed');
+            const num = a.getAttribute('data-topic');
+            const key = isAdv ? 'a' + num : num;
+            completed.includes(String(key)) ? a.classList.add('completed') : a.classList.remove('completed');
         });
     }
+
     function updateButtonStates() {
-        completedTopics.forEach(num => {
-            const card = document.getElementById('topic' + num);
-            if (card) { const btn = card.querySelector('.topic-complete-btn'); if (btn) { btn.classList.add('done'); btn.innerHTML = '&#9989; تم إنجاز هذا الدرس!'; } }
+        const completed = loadProgress();
+        const isAdv = currentLevel === 'advanced';
+        completed.forEach(key => {
+            const cardId = isAdv ? 'a' + key.replace('a','') : 'topic' + key;
+            const actualId = isAdv ? 'atopic' + key.replace('a','') : 'topic' + key;
+            const card = document.getElementById(actualId);
+            if (card) {
+                const btn = card.querySelector('.topic-complete-btn');
+                if (btn) { btn.classList.add('done'); btn.innerHTML = '&#9989; تم إنجاز هذا الدرس!'; }
+            }
         });
     }
+
     function handleScroll() {
         const b = document.getElementById('backToTop');
         window.scrollY > 500 ? b.classList.add('show') : b.classList.remove('show');
     }
+
     function createConfetti() {
         const colors = ['#6C63FF','#FF6B6B','#4ECDC4','#F39C12','#2ECC71','#E74C3C','#9B59B6'];
         for (let i = 0; i < 50; i++) {
@@ -1347,8 +1775,16 @@
             setTimeout(()=>el.remove(),4000);
         }
     }
+
     function closeCelebration() { document.getElementById('celebOverlay').classList.remove('show'); }
-    init();
+
+    // ===== STARTUP =====
+    if (currentLevel) {
+        document.getElementById('levelOverlay').classList.add('hidden');
+        applyLevel(currentLevel);
+        init();
+    }
+    // else: overlay remains visible, waiting for user to pick a level
 </script>
 </body>
 </html>
